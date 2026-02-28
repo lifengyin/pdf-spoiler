@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Spoiler</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="upload-screen">
+    <h1>PDF Spoiler</h1>
+    <p>Upload a PDF to view it in the browser.</p>
+    <label class="upload-btn" for="pdf-input">Choose PDF</label>
+    <input type="file" id="pdf-input" accept=".pdf" hidden>
+    <span id="file-name"></span>
+  </div>
+
+  <div id="viewer-screen" hidden>
+    <div id="pdf-container"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
