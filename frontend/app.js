@@ -22,14 +22,22 @@
         document.getElementById("file-name").textContent = "Loading " + file.name + "...";
         try {
             const arrayBuffer = await file.arrayBuffer();
-            await renderPdf(arrayBuffer);
+            const patterns = getPatterns();
+            await renderPdf(arrayBuffer, patterns);
         } catch (err) {
             console.error("Failed to render PDF:", err);
             document.getElementById("file-name").textContent = "Error: " + err.message;
         }
     }
 
-    async function renderPdf(arrayBuffer) {
+    function getPatterns() {
+        const raw = document.getElementById("patterns-input").value;
+        return raw.split("\n")
+            .map(s => s.trim().toLowerCase())
+            .filter(s => s.length > 0);
+    }
+
+    async function renderPdf(arrayBuffer, patterns) {
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         const container = document.getElementById("pdf-container");
 
@@ -39,12 +47,12 @@
 
         for (let i = 1; i <= pdf.numPages; i++) {
             const page = await pdf.getPage(i);
-            const wrapper = await renderPage(page, i);
+            const wrapper = await renderPage(page, i, patterns);
             container.appendChild(wrapper);
         }
     }
 
-    async function renderPage(page, pageNum) {
+    async function renderPage(page, pageNum, patterns) {
         const cssViewport = page.getViewport({ scale: CSS_SCALE });
         const renderViewport = page.getViewport({ scale: CSS_SCALE * DPR });
 
